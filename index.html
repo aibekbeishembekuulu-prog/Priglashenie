@@ -350,7 +350,16 @@ body{
 .photos img:nth-child(2){
     height:280px;
 }
-
+.restaurant-image{
+    width:100%;
+    max-width:600px;
+    height:260px;
+    object-fit:cover;
+    display:block;
+    margin:0 auto 25px;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(76,54,31,.18);
+}
 /* =========================
    ТОЙ МААЛЫМАТЫ
 ========================= */
@@ -644,13 +653,15 @@ body{
 
     <!-- Той маалыматы -->
 
-    <section class="section">
+   <section class="section">
 
-        <h2>Тойдун дареги</h2>
+    <h2>Тойдун дареги</h2>
 
-        <div class="decor-line"></div>
+    <div class="decor-line"></div>
 
-        <div class="info-box">
+    <img src="restaurant.jpg" alt="Хан Ордо рестораны" class="restaurant-image">
+
+    <div class="info-box">
 
             <div class="info-item">
 
