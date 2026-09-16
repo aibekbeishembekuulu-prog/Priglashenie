@@ -1,0 +1,984 @@
+﻿<!DOCTYPE html>
+<html lang="ky">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Азамат & Аида</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Georgia,"Times New Roman",serif;
+    background:#f4eee5;
+    color:#55463a;
+    overflow-x:hidden;
+}
+
+/* =========================
+   БАШКЫ ЭКРАН
+========================= */
+
+#envelopeScreen{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:25px;
+    background:
+        radial-gradient(circle at 20% 20%,rgba(255,255,255,.9),transparent 25%),
+        radial-gradient(circle at 80% 80%,rgba(213,183,132,.18),transparent 30%),
+        #f3ede3;
+}
+
+/* Карта */
+
+.invitation-card{
+    position:relative;
+    width:330px;
+    min-height:600px;
+    padding:50px 28px;
+    border-radius:8px;
+    background:
+        linear-gradient(145deg,#fffdf8,#eee3d2);
+    box-shadow:
+        0 25px 60px rgba(83,61,37,.25),
+        inset 0 0 0 1px rgba(177,142,88,.25);
+    overflow:hidden;
+    animation:cardFloat 4s ease-in-out infinite;
+}
+
+@keyframes cardFloat{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-7px)}
+}
+
+/* алтын рамка */
+
+.invitation-card:before{
+    content:"";
+    position:absolute;
+    inset:13px;
+    border:1px solid rgba(177,139,79,.45);
+    pointer-events:none;
+}
+
+.invitation-card:after{
+    content:"";
+    position:absolute;
+    inset:19px;
+    border:1px solid rgba(177,139,79,.18);
+    pointer-events:none;
+}
+
+/* Гүлдөр */
+
+.flower{
+    position:absolute;
+    font-size:75px;
+    line-height:1;
+    opacity:.9;
+    filter:drop-shadow(2px 5px 4px rgba(94,66,38,.18));
+}
+
+.flower.top{
+    top:-9px;
+    left:-12px;
+    transform:rotate(-25deg);
+}
+
+.flower.bottom{
+    bottom:-12px;
+    right:-12px;
+    transform:rotate(155deg);
+}
+
+.flower.small1{
+    top:85px;
+    right:-22px;
+    font-size:45px;
+    transform:rotate(35deg);
+}
+
+.flower.small2{
+    bottom:85px;
+    left:-18px;
+    font-size:45px;
+    transform:rotate(-70deg);
+}
+
+/* Берметтер */
+
+.pearl{
+    position:absolute;
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:
+        radial-gradient(circle at 30% 25%,#fff,#e8d4ad 40%,#ae8245 100%);
+    box-shadow:0 2px 5px rgba(88,62,27,.3);
+}
+
+.p1{top:100px;left:34px}
+.p2{top:125px;left:48px}
+.p3{top:150px;left:30px}
+.p4{top:178px;left:48px}
+
+.p5{top:100px;right:34px}
+.p6{top:125px;right:48px}
+.p7{top:150px;right:30px}
+.p8{top:178px;right:48px}
+
+/* текст */
+
+.small-title{
+    text-align:center;
+    margin-top:30px;
+    font-size:13px;
+    letter-spacing:4px;
+    color:#9c7740;
+    text-transform:uppercase;
+}
+
+.card-title{
+    text-align:center;
+    margin-top:20px;
+    font-size:28px;
+    color:#76562e;
+    font-weight:normal;
+}
+
+.card-line{
+    width:80px;
+    height:1px;
+    background:#b8955d;
+    margin:22px auto;
+}
+
+.card-date{
+    text-align:center;
+    font-size:15px;
+    letter-spacing:2px;
+    color:#816b50;
+}
+
+/* =========================
+   СУРГУЧ МӨӨР
+========================= */
+
+.seal-button{
+    position:absolute;
+    left:50%;
+    bottom:48px;
+    transform:translateX(-50%);
+    width:125px;
+    height:125px;
+    border-radius:50%;
+    border:4px solid #b99758;
+
+    background:
+        radial-gradient(circle at 35% 25%,#d9bd7c,#a97831 55%,#80561f);
+
+    color:#fff8e9;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+
+    font-family:Georgia,serif;
+    font-size:17px;
+    line-height:1.2;
+
+    box-shadow:
+        0 8px 20px rgba(83,53,20,.35),
+        inset 0 2px 3px rgba(255,255,255,.35);
+
+    cursor:pointer;
+    transition:.35s;
+    z-index:5;
+}
+
+.seal-button:hover{
+    transform:translateX(-50%) scale(1.06);
+}
+
+.seal-button span{
+    display:block;
+}
+
+.click-text{
+    position:absolute;
+    bottom:20px;
+    left:0;
+    width:100%;
+    text-align:center;
+    font-size:11px;
+    letter-spacing:2px;
+    color:#9b7a4d;
+}
+
+/* =========================
+   НЕГИЗГИ ЧАКЫРУУ
+========================= */
+
+#mainInvitation{
+    display:none;
+    opacity:0;
+    animation:showInvitation 1.4s forwards;
+}
+
+@keyframes showInvitation{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.hero{
+    min-height:100vh;
+    padding:80px 22px;
+    text-align:center;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    background:
+        radial-gradient(circle at top,#fffaf3,#f4eadc 60%,#eadbc6);
+}
+
+.hero-small{
+    letter-spacing:4px;
+    font-size:12px;
+    color:#a07b43;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    font-size:52px;
+    font-weight:normal;
+    color:#75562f;
+    margin-bottom:18px;
+}
+
+.hero .amp{
+    font-size:32px;
+    color:#b18a50;
+}
+
+.hero-date{
+    font-size:18px;
+    letter-spacing:3px;
+    color:#806b51;
+}
+
+.decor-line{
+    width:90px;
+    height:1px;
+    background:#b79763;
+    margin:28px auto;
+}
+
+/* =========================
+   БӨЛҮМДӨР
+========================= */
+
+.section{
+    padding:70px 20px;
+    text-align:center;
+    background:#fffaf3;
+}
+
+.section:nth-child(even){
+    background:#f5ede2;
+}
+
+.section h2{
+    font-size:29px;
+    font-weight:normal;
+    color:#76572f;
+    margin-bottom:22px;
+}
+
+.section p{
+    max-width:600px;
+    margin:0 auto;
+    line-height:1.9;
+    font-size:16px;
+    color:#655648;
+}
+
+/* =========================
+   СҮРӨТТӨР
+========================= */
+
+.photos{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    max-width:650px;
+    margin:30px auto 0;
+}
+
+.photos img{
+    width:100%;
+    height:230px;
+    object-fit:cover;
+    border-radius:8px;
+    box-shadow:0 8px 20px rgba(76,54,31,.16);
+}
+
+.photos img:nth-child(1){
+    height:280px;
+}
+
+.photos img:nth-child(2){
+    height:280px;
+}
+
+/* =========================
+   ТОЙ МААЛЫМАТЫ
+========================= */
+
+.info-box{
+    max-width:600px;
+    margin:30px auto 0;
+    padding:30px 20px;
+    border:1px solid rgba(169,132,72,.35);
+    border-radius:10px;
+    background:#fffdf9;
+}
+
+.info-item{
+    margin:20px 0;
+}
+
+.info-label{
+    font-size:12px;
+    letter-spacing:3px;
+    color:#ad8950;
+    margin-bottom:7px;
+}
+
+.info-value{
+    font-size:19px;
+    color:#5c4938;
+}
+
+/* =========================
+   КАРТА
+========================= */
+
+.map-button{
+    display:inline-block;
+    margin-top:25px;
+    padding:14px 28px;
+    border-radius:30px;
+    background:#a9834a;
+    color:white;
+    text-decoration:none;
+    letter-spacing:1px;
+    transition:.3s;
+}
+
+.map-button:hover{
+    transform:translateY(-2px);
+}
+
+/* =========================
+   RSVP
+========================= */
+
+.rsvp{
+    max-width:500px;
+    margin:30px auto 0;
+}
+
+.rsvp label{
+    display:block;
+    text-align:left;
+    margin:14px 0 6px;
+    color:#6c5947;
+}
+
+.rsvp input,
+.rsvp select,
+.rsvp textarea{
+    width:100%;
+    padding:13px;
+    border:1px solid #d6c3a7;
+    border-radius:7px;
+    background:#fffdf9;
+    font-family:inherit;
+    font-size:15px;
+}
+
+.rsvp button{
+    margin-top:20px;
+    padding:14px 30px;
+    border:none;
+    border-radius:30px;
+    background:#a9834a;
+    color:#fff;
+    font-family:inherit;
+    font-size:16px;
+    cursor:pointer;
+}
+
+/* =========================
+   АЯГЫ
+========================= */
+
+.footer{
+    padding:70px 20px;
+    text-align:center;
+    background:#eee2d2;
+}
+
+.footer h2{
+    font-size:32px;
+    font-weight:normal;
+    color:#76572f;
+}
+
+.footer p{
+    margin-top:15px;
+    color:#735f4b;
+}
+
+/* =========================
+   МУЗЫКА
+========================= */
+
+.music-control{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    border:1px solid #b9955e;
+    background:#fffaf2;
+    color:#806331;
+    z-index:100;
+    cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
+
+/* =========================
+   МОБИЛЬНЫЙ
+========================= */
+
+@media(max-width:500px){
+
+    .invitation-card{
+        width:310px;
+        min-height:590px;
+    }
+
+    .hero h1{
+        font-size:43px;
+    }
+
+    .photos img{
+        height:180px;
+    }
+
+    .photos img:nth-child(1),
+    .photos img:nth-child(2){
+        height:220px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     БАШКЫ КОНВЕРТ / КАРТА
+========================= -->
+
+<div id="envelopeScreen">
+
+    <div class="invitation-card">
+
+        <!-- декоративдүү гүлдөр -->
+        <div class="flower top">🌸</div>
+        <div class="flower bottom">🌸</div>
+        <div class="flower small1">🌿</div>
+        <div class="flower small2">🌿</div>
+
+        <!-- алтын берметтер -->
+        <div class="pearl p1"></div>
+        <div class="pearl p2"></div>
+        <div class="pearl p3"></div>
+        <div class="pearl p4"></div>
+
+        <div class="pearl p5"></div>
+        <div class="pearl p6"></div>
+        <div class="pearl p7"></div>
+        <div class="pearl p8"></div>
+
+        <div class="small-title">
+            Тойго чакыруу
+        </div>
+
+        <div class="card-title">
+            Азамат <span style="color:#b28c51">&</span> Аида
+        </div>
+
+        <div class="card-line"></div>
+
+        <div class="card-date">
+            10 СЕНТЯБРЬ 2026
+        </div>
+
+        <!-- Сургуч мөөр -->
+        <div class="seal-button" onclick="openInvitation()">
+            <span>
+                Азамат<br>
+                <small>&</small><br>
+                Аида
+            </span>
+        </div>
+
+        <div class="click-text">
+            АЧУУ ҮЧҮН БАСЫҢЫЗ
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     НЕГИЗГИ ЧАКЫРУУ
+========================= -->
+
+<div id="mainInvitation">
+
+    <section class="hero">
+
+        <div class="hero-small">
+            СҮЙҮҮ • ЫНТЫМАК • БАКЫТ
+        </div>
+
+        <h1>
+            Азамат
+            <span class="amp">&</span>
+            Аида
+        </h1>
+
+        <div class="decor-line"></div>
+
+        <div class="hero-date">
+            10 СЕНТЯБРЬ 2026
+        </div>
+
+        <p style="margin-top:30px;max-width:550px;line-height:1.9;">
+            Урматтуу туугандар, жакындар жана достор!
+            Сиздерди жашообуздагы эң маанилүү күндөрдүн
+            бири болгон үлпөт тоюбузга чын жүрөктөн чакырабыз.
+        </p>
+
+    </section>
+
+
+    <!-- Куттуктоо -->
+
+    <section class="section">
+
+        <h2>Кымбаттуу конокторубуз!</h2>
+
+        <div class="decor-line"></div>
+
+        <p>
+            Кубанычыбызды сиздер менен бөлүшүп,
+            ак жолтой каалоо-тилектериңиздерди кабыл алуу
+            биз үчүн чоң сыймык.
+            <br><br>
+
+            Уулдарыбыз <b>Азамат жана Аида</b> баш кошуп,
+            жаңы үй-бүлөлүк жашоого кадам таштап жатышат.
+        </p>
+
+    </section>
+
+
+    <!-- Сүрөттөр -->
+
+    <section class="section">
+
+        <h2>Биздин өзгөчө күн</h2>
+
+        <div class="decor-line"></div>
+
+        <div class="photos">
+
+            <img src="photo1.jpg" alt="Азамат жана Аида">
+            <img src="photo2.jpg" alt="Азамат жана Аида">
+            <img src="photo3.jpg" alt="Азамат жана Аида">
+            <img src="photo4.jpg" alt="Азамат жана Аида">
+
+        </div>
+
+    </section>
+
+
+    <!-- Той маалыматы -->
+
+    <section class="section">
+
+        <h2>Тойдун дареги</h2>
+
+        <div class="decor-line"></div>
+
+        <div class="info-box">
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    КҮНҮ
+                </div>
+
+                <div class="info-value">
+                    10 сентябрь 2026-жыл
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    ШААР
+                </div>
+
+                <div class="info-value">
+                    Токмок шаары
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    РЕСТОРАН
+                </div>
+
+                <div class="info-value">
+                    «Хан Ордо»
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    ДАРЕК
+                </div>
+
+                <div class="info-value">
+                    Кыргызская көчөсү, 61/1
+                </div>
+
+            </div>
+
+            <a
+                class="map-button"
+                href="https://2gis.kg/bishkek/geo/70000001028890335/75.302601,42.830719"
+                target="_blank"
+            >
+                📍 КАРТАДАН КӨРҮҮ
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- RSVP -->
+
+    <section class="section">
+
+        <h2>Тойго келесизби?</h2>
+
+        <div class="decor-line"></div>
+
+        <p>
+            Келериңизди алдын ала билдирип,
+            бизге кубанычыбызды туура бөлүштүрүүгө жардам бериңиз.
+        </p>
+
+
+        <div class="rsvp">
+
+            <label>
+                Атыңыз-жөнүңүз
+            </label>
+
+            <input
+                id="guestName"
+                type="text"
+                placeholder="Атыңызды жазыңыз"
+            >
+
+
+            <label>
+                Тойго келесизби?
+            </label>
+
+            <select id="guestAnswer">
+
+                <option value="Ооба, барам">
+                    Ооба, барам ❤️
+                </option>
+
+                <option value="Тилекке каршы бара албайм">
+                    Тилекке каршы бара албайм
+                </option>
+
+            </select>
+
+
+            <label>
+                Каалоо-тилегиңиз
+            </label>
+
+            <textarea
+                id="guestMessage"
+                rows="4"
+                placeholder="Каалоо-тилегиңизди жазыңыз..."
+            ></textarea>
+
+
+            <button onclick="sendRSVP()">
+                ЖООПТУ ЖӨНӨТҮҮ
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- Аягы -->
+
+    <section class="footer">
+
+        <h2>
+            Азамат & Аида
+        </h2>
+
+        <p>
+            Биздин кубанычыбызга ортоктош болуп,
+            той төрүбүздөн орун алыңыздар!
+        </p>
+
+        <div class="decor-line"></div>
+
+        <p>
+            10.09.2026
+        </p>
+
+    </section>
+
+</div>
+
+
+<!-- =========================
+     МУЗЫКА
+========================= -->
+
+<audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="voice">
+    <source src="voice.mp3" type="audio/mpeg">
+</audio>
+
+<button
+    class="music-control"
+    onclick="toggleMusic()"
+    id="musicButton"
+>
+    🎵
+</button>
+
+
+<script>
+function openInvitation(){
+
+    const envelope =
+        document.getElementById("envelopeScreen");
+
+    const invitation =
+        document.getElementById("mainInvitation");
+
+    const music =
+        document.getElementById("music");
+
+    const voice =
+        document.getElementById("voice");
+
+
+    envelope.style.transition =
+        "1s ease";
+
+    envelope.style.transform =
+        "scale(1.15)";
+
+    envelope.style.opacity =
+        "0";
+
+
+    setTimeout(function(){
+
+        envelope.style.display =
+            "none";
+
+        invitation.style.display =
+            "block";
+
+        window.scrollTo(0,0);
+
+
+        /* Музыка акырын чыгат */
+        music.volume = 0.12;
+
+        music.currentTime = 0;
+
+        music.play().catch(function(){});
+
+
+        /* Диктор бир аздан кийин башталат */
+        setTimeout(function(){
+
+            voice.volume = 1.0;
+
+            voice.currentTime = 0;
+
+            voice.play().catch(function(){});
+
+        },800);
+
+    },900);
+
+}
+
+
+/* =========================
+   МУЗЫКАНЫ БАШКАРУУ
+========================= */
+
+function toggleMusic(){
+
+    const music =
+        document.getElementById("music");
+
+    const button =
+        document.getElementById("musicButton");
+
+
+    if(music.paused){
+
+        music.play();
+
+        button.innerHTML =
+            "🎵";
+
+    }else{
+
+        music.pause();
+
+        button.innerHTML =
+            "🔇";
+
+    }
+
+}
+
+
+/* =========================
+   WHATSAPP RSVP
+========================= */
+
+function sendRSVP(){
+
+    const name =
+        document.getElementById("guestName").value.trim();
+
+    const answer =
+        document.getElementById("guestAnswer").value;
+
+    const message =
+        document.getElementById("guestMessage").value.trim();
+
+
+    if(!name){
+
+        alert("Сураныч, аты-жөнүңүздү жазыңыз.");
+
+        return;
+
+    }
+
+
+    let text =
+        "Саламатсызбы! 🌸%0A%0A" +
+
+        "Азамат & Аиданын тою боюнча:%0A%0A" +
+
+        "👤 Аты-жөнү: " +
+        encodeURIComponent(name) +
+
+        "%0A" +
+
+        "💍 Жооп: " +
+        encodeURIComponent(answer);
+
+
+    if(message){
+
+        text +=
+            "%0A💌 Каалоо: " +
+            encodeURIComponent(message);
+
+    }
+
+
+    /*
+     * WhatsApp номер
+     */
+    const phone =
+        "996702263388";
+
+
+    window.open(
+        "https://wa.me/" + phone + "?text=" + text,
+        "_blank"
+    );
+
+}
+
+</script>
+
+</body>
+</html>
